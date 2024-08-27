@@ -10,5 +10,5 @@ AMD Ryzen 5 3500U with Radeon Vega Mobile Gfx, 1 CPU, 8 logical and 4 physical c
 ```
 | Method     | Mean     | Error    | StdDev   | Ratio    | RatioSD | Code Size | Allocated | Alloc Ratio |
 |----------- |---------:|---------:|---------:|---------:|--------:|----------:|----------:|------------:|
-| DefaultMod | 666.3 μs | 12.51 μs | 11.09 μs | baseline |         |      49 B |         - |          NA |
-| FastMod    | 111.1 μs |  2.18 μs |  4.30 μs |     -83% |    5.5% |      82 B |         - |          NA |
+| DefaultMod | 625.0 μs | 11.83 μs | 11.07 μs | baseline |         |      68 B |         - |          NA |
+| FastMod    | 105.6 μs |  2.01 μs |  2.32 μs |     -83% |    2.7% |      82 B |         - |          NA |

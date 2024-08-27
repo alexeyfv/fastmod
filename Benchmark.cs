@@ -5,7 +5,7 @@ using BenchmarkDotNet.Diagnosers;
 namespace Benchmark;
 
 [CategoriesColumn]
-[DisassemblyDiagnoser(printSource: true, maxDepth: 2, exportCombinedDisassemblyReport: true)]
+[DisassemblyDiagnoser(printSource: true, exportCombinedDisassemblyReport: true)]
 [MemoryDiagnoser]
 public class Benchmark
 {
