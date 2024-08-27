@@ -5,13 +5,13 @@ using BenchmarkDotNet.Diagnosers;
 namespace Benchmark;
 
 [CategoriesColumn]
+[DisassemblyDiagnoser(printSource: true, maxDepth: 2, exportCombinedDisassemblyReport: true)]
 [MemoryDiagnoser]
-[SimpleJob(iterationCount: 20)]
 public class Benchmark
 {
     private const int size = 100_000;
     private uint bucketsNum = 0;
-    private uint multiplier = 0;
+    private ulong multiplier = 0;
     private int[] hashcodes = [];
 
     [GlobalSetup]
@@ -21,7 +21,16 @@ public class Benchmark
         for (var i = 0; i < size; i++) hashcodes[i] = Random.Shared.Next(0, int.MaxValue);
 
         bucketsNum = 14591;
-        multiplier = uint.MaxValue / bucketsNum;
+        multiplier = ulong.MaxValue / bucketsNum + 1;
+
+        for (var i = 0; i < hashcodes.Length; i++)
+        {
+            var a = (uint)hashcodes[i] % bucketsNum;
+            var b = FastMod((uint)hashcodes[i], multiplier, bucketsNum);
+
+            if (a == b) continue;
+            throw new InvalidOperationException($"a: {a}, b: {b}, hashcode: {hashcodes[i]}, multiplier: {multiplier}, bucketsNum: {bucketsNum}");
+        }
     }
 
     [Benchmark(Baseline = true)]
@@ -30,7 +39,7 @@ public class Benchmark
         uint sum = 0;
         for (var i = 0; i < hashcodes.Length; i++)
         {
-            sum += (uint) hashcodes[i] % bucketsNum;
+            sum += (uint)hashcodes[i] % bucketsNum;
         }
         return sum;
     }
@@ -47,8 +56,8 @@ public class Benchmark
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static uint FastMod(uint hashcode, uint multiplier, uint bucketsNum)
+    private static uint FastMod(uint hashcode, ulong multiplier, uint bucketsNum)
     {
-        return hashcode - ((hashcode * multiplier) >> 32) * bucketsNum;
+        return (uint)(((((multiplier * hashcode) >> 32) + 1) * bucketsNum) >> 32);
     }
 }
