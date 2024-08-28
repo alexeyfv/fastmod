@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' />
-<title>Benchmark.Benchmark-20240827-215333</title>
+<title>Benchmark.Benchmark-20240828-203811</title>
 
 <style type="text/css">
 	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
@@ -13,7 +13,7 @@
 </head>
 <body>
 <pre><code>
-BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.4037/23H2/2023Update/SunValley3)
+BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.4112/23H2/2023Update/SunValley3)
 AMD Ryzen 5 3500U with Radeon Vega Mobile Gfx, 1 CPU, 8 logical and 4 physical cores
 .NET SDK 8.0.203
   [Host]     : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
@@ -22,10 +22,12 @@ AMD Ryzen 5 3500U with Radeon Vega Mobile Gfx, 1 CPU, 8 logical and 4 physical c
 <pre><code></code></pre>
 
 <table>
-<thead><tr><th>Method</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Ratio</th><th>RatioSD</th><th>Code Size</th><th>Allocated</th><th>Alloc Ratio</th>
+<thead><tr><th>Method   </th><th>Mean</th><th>Error</th><th>StdDev</th><th>Ratio</th><th>RatioSD</th><th>Code Size</th><th>Allocated</th><th>Alloc Ratio</th>
 </tr>
-</thead><tbody><tr><td>DefaultMod</td><td>625.0 &mu;s</td><td>11.83 &mu;s</td><td>11.07 &mu;s</td><td>baseline</td><td></td><td>68 B</td><td>-</td><td>NA</td>
-</tr><tr><td>FastMod</td><td>105.6 &mu;s</td><td>2.01 &mu;s</td><td>2.32 &mu;s</td><td>-83%</td><td>2.7%</td><td>82 B</td><td>-</td><td>NA</td>
+</thead><tbody><tr><td>DefaultMod</td><td>621.27 &mu;s</td><td>11.031 &mu;s</td><td>10.319 &mu;s</td><td>baseline</td><td></td><td>68 B</td><td>-</td><td>NA</td>
+</tr><tr><td>DefaultModConst</td><td>91.36 &mu;s</td><td>1.800 &mu;s</td><td>2.907 &mu;s</td><td>-85%</td><td>3.0%</td><td>88 B</td><td>-</td><td>NA</td>
+</tr><tr><td>FastModDotNet</td><td>104.23 &mu;s</td><td>2.034 &mu;s</td><td>2.422 &mu;s</td><td>-83%</td><td>3.1%</td><td>82 B</td><td>-</td><td>NA</td>
+</tr><tr><td>FastModLemier</td><td>125.10 &mu;s</td><td>2.437 &mu;s</td><td>3.722 &mu;s</td><td>-80%</td><td>4.2%</td><td>104 B</td><td>-</td><td>NA</td>
 </tr></tbody></table>
 </body>
 </html>

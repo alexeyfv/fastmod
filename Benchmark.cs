@@ -26,7 +26,7 @@ public class Benchmark
         for (var i = 0; i < hashcodes.Length; i++)
         {
             var a = (uint)hashcodes[i] % bucketsNum;
-            var b = FastMod((uint)hashcodes[i], multiplier, bucketsNum);
+            var b = FastModDotNet((uint)hashcodes[i], multiplier, bucketsNum);
 
             if (a == b) continue;
             throw new InvalidOperationException($"a: {a}, b: {b}, hashcode: {hashcodes[i]}, multiplier: {multiplier}, bucketsNum: {bucketsNum}");
@@ -45,19 +45,43 @@ public class Benchmark
     }
 
     [Benchmark]
-    public uint FastMod()
+    public uint DefaultModConst()
     {
         uint sum = 0;
         for (var i = 0; i < hashcodes.Length; i++)
         {
-            sum += FastMod((uint)hashcodes[i], multiplier, bucketsNum);
+            sum += (uint)hashcodes[i] % 14591;
+        }
+        return sum;
+    }
+
+    [Benchmark]
+    public uint FastModDotNet()
+    {
+        uint sum = 0;
+        for (var i = 0; i < hashcodes.Length; i++)
+        {
+            sum += FastModDotNet((uint)hashcodes[i], multiplier, bucketsNum);
+        }
+        return sum;
+    }
+
+    [Benchmark]
+    public uint FastModLemier()
+    {
+        uint sum = 0;
+        for (var i = 0; i < hashcodes.Length; i++)
+        {
+            sum += FastModLemier((uint)hashcodes[i], multiplier, bucketsNum);
         }
         return sum;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static uint FastMod(uint hashcode, ulong multiplier, uint bucketsNum)
-    {
-        return (uint)(((((multiplier * hashcode) >> 32) + 1) * bucketsNum) >> 32);
-    }
+    private static uint FastModDotNet(uint hashcode, ulong multiplier, uint bucketsNum) => 
+        (uint)(((((multiplier * hashcode) >> 32) + 1) * bucketsNum) >> 32);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static uint FastModLemier(uint hashcode, ulong multiplier, uint bucketsNum) => 
+        (uint)((((UInt128)(hashcode * multiplier)) * bucketsNum) >> 64);
 }
